@@ -11,8 +11,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.XR;
-using static UnityEditor.Progress;
-
 public class VoiceRecog : MonoBehaviour
 {
     [SerializeField] private Dropdown dropdown;
@@ -112,13 +110,14 @@ public class VoiceRecog : MonoBehaviour
             {
                 encoding = "LINEAR16",
                 sampleRateHertz = clip.frequency,
-                languageCode = "en-US",
-                enableWordConfidence = true,
-                enableWordTimeOffsets = true,
-                model = "video",
+                languageCode = "ko-KR",
+                //languageCode = "en-US",
+                enableWordConfidence = false,
+                enableWordTimeOffsets = false,
+                model = "latest_long",
                 maxAlternatives = 1,
                 enableAutomaticPunctuation = true,
-                diarizationConfig = new DiarizationConfig(true, 2, 2),
+                diarizationConfig = new DiarizationConfig(true, 2, 3),
             },
             audio = new RecognitionAudio
             {
@@ -236,7 +235,7 @@ public class VoiceRecog : MonoBehaviour
     private class RecognitionAlternative
     {
         public string transcript;
-        public RecognitionWord[] words = new RecognitionWord[0];
+        public RecognitionWord[] words;
         // ... (other fields you might want to extract)
     }
 
@@ -252,10 +251,23 @@ public class VoiceRecog : MonoBehaviour
     {
         RecognitionResponse response = JsonUtility.FromJson<RecognitionResponse>(jsonResponse);
 
+        //string jsonData = JsonUtility.ToJson(jsonResponse);
+        //string assetPath = "Assets/Data/playerData.json";
+        //TextAsset textAsset = new TextAsset();
+        //textAsset.text = jsonData;
+
+        //UnityEditor.AssetDatabase.CreateAsset(textAsset, assetPath);
+        //UnityEditor.AssetDatabase.SaveAssets();
+
+        string filePath = Application.persistentDataPath + "/JsonData.json";
+        File.WriteAllText(filePath, jsonResponse);
+
+
         Dictionary<int, string> dialogue = new Dictionary<int, string>();
 
         foreach (var result in response.results)
         {
+            Debug.Log("RESULT START");
             foreach (var alternative in result.alternatives)
             {
                 string transcript = alternative.transcript;
@@ -281,7 +293,6 @@ public class VoiceRecog : MonoBehaviour
                     {
                         Debug.Log($"{item.Key} : {item.Value}\n");
                     }
-                    Debug.Log("CLEAR");
                     dialogue.Clear();
                 }
             }

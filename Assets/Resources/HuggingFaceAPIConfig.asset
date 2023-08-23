@@ -35,3 +35,5 @@ MonoBehaviour:
     endpoint: https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5
   - taskName: Translation
     endpoint: https://api-inference.huggingface.co/models/t5-base
+  - taskName: Translation
+    endpoint: https://api-inference.huggingface.co/models/t5-base
