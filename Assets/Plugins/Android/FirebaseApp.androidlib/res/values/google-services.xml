@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="gcm_defaultSenderId" translatable="false">111956961949</string>
+  <string name="google_storage_bucket" translatable="false">prompterdayseoul2023.appspot.com</string>
+  <string name="project_id" translatable="false">prompterdayseoul2023</string>
+  <string name="google_api_key" translatable="false">AIzaSyDCS1OUQ3YaKU1rUzm7vp3UOg7_HrVMaQA</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDCS1OUQ3YaKU1rUzm7vp3UOg7_HrVMaQA</string>
+  <string name="google_app_id" translatable="false">1:111956961949:android:cbf36562f351f49e8ac274</string>
+  <string name="default_web_client_id" translatable="false">111956961949-8p02flcnap9mmi5uu8b31ug9dlsj31ec.apps.googleusercontent.com</string>
+</resources>

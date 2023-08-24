@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Samples/Vivox/15.1.210000-pre.1/Chat Channel Sample/Assets/ChatChannelSample/Scenes/MainScene.unity
-    guid: dbc457e6df4234749aff8bd5ffa028ef
+    path: Assets/Scenes/New Scene.unity
+    guid: 9fcb71375e5c7eb47841b8d5c8c8c4cc
   m_configObjects: {}

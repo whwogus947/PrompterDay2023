@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "111956961949",
+    "project_id": "prompterdayseoul2023",
+    "storage_bucket": "prompterdayseoul2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111956961949:android:cbf36562f351f49e8ac274",
+        "android_client_info": {
+          "package_name": "com.PrompterDay2023.Assistyfy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111956961949-8p02flcnap9mmi5uu8b31ug9dlsj31ec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCS1OUQ3YaKU1rUzm7vp3UOg7_HrVMaQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111956961949-8p02flcnap9mmi5uu8b31ug9dlsj31ec.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
