@@ -398,6 +398,16 @@ public class VivoxVoiceManager : MonoBehaviour
         }
     }
 
+    private void AdjustVolume(IAudioDevices devices, int value)
+    {
+        // Refresh list of devices to have it up to date
+        var ar = devices.BeginRefresh(new AsyncCallback((IAsyncResult result) =>
+        {
+            // Set the volume for the device
+            devices.VolumeAdjustment = value;
+        }));
+    }
+
     private void OnParticipantValueUpdated(object sender, ValueEventArg<string, IParticipant> valueEventArg)
     {
         ValidateArgs(new object[] { sender, valueEventArg });
