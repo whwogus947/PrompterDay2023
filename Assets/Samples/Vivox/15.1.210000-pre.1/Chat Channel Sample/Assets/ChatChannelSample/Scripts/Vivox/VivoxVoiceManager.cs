@@ -81,6 +81,11 @@ public class VivoxVoiceManager : MonoBehaviour
     [SerializeField]
     private string _server;
 
+    private float mutedTimer;
+    private float timerMax = 2.5f;
+    private float speakingTime;
+    private bool isSpeaking = false;
+
     /// <summary>
     /// Access singleton instance through this propriety.
     /// </summary>
@@ -154,6 +159,11 @@ public class VivoxVoiceManager : MonoBehaviour
         }
 	}
 
+    private void ResetTImer()
+    {
+        mutedTimer = timerMax;
+    }
+
     async void Start()
     {
         var options = new InitializationOptions();
@@ -205,6 +215,7 @@ public class VivoxVoiceManager : MonoBehaviour
                 return;
             }
         });
+        AdjustVolume(AudioInputDevices, +40);
     }
 
     public void Logout()
@@ -424,6 +435,7 @@ public class VivoxVoiceManager : MonoBehaviour
         {
             case "SpeechDetected":
                 {
+                    OnSpeaking();
                     VivoxLog($"OnSpeechDetectedEvent: {username} in {channel}.");
                     OnSpeechDetectedEvent?.Invoke(username, channel, valueEventArg.Value.SpeechDetected);
                     break;
@@ -435,6 +447,40 @@ public class VivoxVoiceManager : MonoBehaviour
                 }
             default:
                 break;
+        }
+    }
+
+    private void OnSpeaking()
+    {
+        isSpeaking = true;
+        ResetTImer();
+        Debug.Log("<color=purple>Speaking Start</color>: ");
+    }
+
+    private void OnEndSpeaking()
+    {
+        Debug.Log("<color=blue>Speaking Finished</color>: ");
+    }
+
+    private void Update()
+    {
+        if (isSpeaking)
+        {
+            speakingTime += Time.deltaTime;
+            mutedTimer -= Time.deltaTime;
+            if (mutedTimer < 0)
+            {
+                isSpeaking = false;
+                if (speakingTime < 1.2f)
+                {
+                    Debug.Log("<color=red>Speaking time is too short!</color>");
+                }
+                else
+                {
+                    OnEndSpeaking();
+                }
+                speakingTime = 0;
+            }
         }
     }
 
@@ -481,7 +527,7 @@ public class VivoxVoiceManager : MonoBehaviour
 
     private void VivoxLog(string msg)
     {
-        Debug.Log("<color=green>VivoxVoice: </color>: " + msg);
+        //Debug.Log("<color=green>VivoxVoice: </color>: " + msg);
     }
 
     private void VivoxLogError(string msg)
