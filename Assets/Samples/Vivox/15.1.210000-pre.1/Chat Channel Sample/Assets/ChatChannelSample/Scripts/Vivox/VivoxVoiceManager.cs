@@ -215,7 +215,7 @@ public class VivoxVoiceManager : MonoBehaviour
                 return;
             }
         });
-        AdjustVolume(AudioInputDevices, +40);
+        AdjustVolume(AudioInputDevices, 0);
     }
 
     public void Logout()
