@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropdown: {fileID: 938218474}
-  duration: 15
+  duration: 10
 --- !u!4 &251905038
 Transform:
   m_ObjectHideFlags: 0
@@ -1008,7 +1008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.22055559, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.5000038, y: 0}
+  m_AnchoredPosition: {x: -1.5, y: 0}
   m_SizeDelta: {x: -3, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &405170513
@@ -2777,6 +2777,7 @@ MonoBehaviour:
   _issuer: 14568-promp-59212-udash
   _domain: mtu1xp.vivox.com
   _server: https://unity.vivox.com/appconfig/14568-promp-59212-udash
+  whisper: {fileID: 251905037}
 --- !u!1 &836621974
 GameObject:
   m_ObjectHideFlags: 0

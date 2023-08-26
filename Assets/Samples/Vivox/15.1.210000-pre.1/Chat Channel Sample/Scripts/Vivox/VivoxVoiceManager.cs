@@ -9,6 +9,7 @@ using UnityEngine;
 using VivoxUnity;
 using Unity.Services.Core;
 using Unity.Services.Vivox;
+using OpenAI;
 #if AUTH_PACKAGE_PRESENT
 using Unity.Services.Authentication;
 #endif
@@ -80,6 +81,8 @@ public class VivoxVoiceManager : MonoBehaviour
     private string _domain;
     [SerializeField]
     private string _server;
+
+    public Whisper whisper;
 
     private float mutedTimer;
     private float timerMax = 2.5f;
@@ -454,11 +457,13 @@ public class VivoxVoiceManager : MonoBehaviour
     {
         isSpeaking = true;
         ResetTImer();
+        whisper.RecordingStart();
         Debug.Log("<color=purple>Speaking Start</color>: ");
     }
 
     private void OnEndSpeaking()
     {
+        whisper.RecordingEnd();
         Debug.Log("<color=blue>Speaking Finished</color>: ");
     }
 
@@ -471,7 +476,7 @@ public class VivoxVoiceManager : MonoBehaviour
             if (mutedTimer < 0)
             {
                 isSpeaking = false;
-                if (speakingTime < 1.2f)
+                if (speakingTime < 1f)
                 {
                     Debug.Log("<color=red>Speaking time is too short!</color>");
                 }
