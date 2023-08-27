@@ -62,12 +62,15 @@ namespace OpenAI
                 newData[i] = soundData[i];
             }
 
-            var newClip = AudioClip.Create(recordedClip.name, position, recordedClip.channels, recordedClip.frequency, false);
-            newClip.SetData(newData, 0);
-            Destroy(recordedClip);
+            if (position > 0)
+            {
+                var newClip = AudioClip.Create(recordedClip.name, position, recordedClip.channels, recordedClip.frequency, false);
+                newClip.SetData(newData, 0);
+                Destroy(recordedClip);
 
-            //Debug.Log(newClip.length);
-            clip = newClip;
+                //Debug.Log(newClip.length);
+                clip = newClip;
+            }
         }
 
         public void RecordingEnd()
