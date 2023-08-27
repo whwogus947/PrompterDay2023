@@ -49,7 +49,7 @@ namespace OpenAI
         private void RecordAsSample(string deviceName, AudioClip recordedClip)
         {
             var position = Microphone.GetPosition(deviceName);
-            Debug.Log("position : " + position);
+
             var soundData = new float[recordedClip.samples * recordedClip.channels];
             recordedClip.GetData(soundData, 0);
 
@@ -66,13 +66,13 @@ namespace OpenAI
             newClip.SetData(newData, 0);
             Destroy(recordedClip);
 
-            Debug.Log(newClip.length);
+            //Debug.Log(newClip.length);
             clip = newClip;
         }
 
         public void RecordingEnd()
         {
-            Debug.Log("Timer : " + debugTimer);
+            //Debug.Log("Timer : " + debugTimer);
             debugTimer = 0f;
             time = 0;
             isRecording = false;
@@ -81,26 +81,23 @@ namespace OpenAI
 
         private async UniTaskVoid EndRecording()
         {
-            Debug.Log("Transcripting...");
+            //Debug.Log("Transcripting...");
             var index = PlayerPrefs.GetInt("user-mic-device-index");
             RecordAsSample(dropdown.options[index].text, clip);
             Microphone.End(dropdown.options[index].text);
 
-            audio.clip = clip;
-            audio.Play();
+            byte[] data = SaveWav.Save(fileName, clip);
 
-            //byte[] data = SaveWav.Save(fileName, clip);
+            var req = new CreateAudioTranscriptionsRequest
+            {
+                FileData = new FileData() { Data = data, Name = "audio.wav" },
+                // File = Application.persistentDataPath + "/" + fileName,
+                Model = "whisper-1",
+                Language = "ko"
+            };
+            var res = await openai.CreateAudioTranscription(req);
 
-            //var req = new CreateAudioTranscriptionsRequest
-            //{
-            //    FileData = new FileData() {Data = data, Name = "audio.wav"},
-            //    // File = Application.persistentDataPath + "/" + fileName,
-            //    Model = "whisper-1",
-            //    Language = "ko"
-            //};
-            //var res = await openai.CreateAudioTranscription(req);
-
-            //Debug.Log("RESULT : " + res.Text);
+            Debug.Log("<color=green>RESULT</color> : " + res.Text);
         }
 
         private void Update()

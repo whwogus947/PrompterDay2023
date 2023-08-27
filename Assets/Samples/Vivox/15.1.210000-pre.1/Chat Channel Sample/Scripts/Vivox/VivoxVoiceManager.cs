@@ -162,11 +162,6 @@ public class VivoxVoiceManager : MonoBehaviour
         }
 	}
 
-    private void ResetTImer()
-    {
-        mutedTimer = timerMax;
-    }
-
     async void Start()
     {
         var options = new InitializationOptions();
@@ -219,7 +214,47 @@ public class VivoxVoiceManager : MonoBehaviour
             }
         });
         AdjustVolume(AudioInputDevices, 0);
+
     }
+
+    //**********************************************
+
+    //private void OnParticipantAdded(string channelName, IParticipant participant)
+    //{
+    //    if (IsLocalPlayer(participant)) // Replace with your own logic to identify the local player
+    //    {
+    //        participant. += OnSpeakingChanged;
+    //    }
+    //}
+
+    //private void OnParticipantRemoved(string channelName, IParticipant participant)
+    //{
+    //    if (IsLocalPlayer(participant)) // Replace with your own logic to identify the local player
+    //    {
+    //        participant.SpeakingChangedEvent -= OnSpeakingChanged;
+    //    }
+    //}
+
+    //private void OnSpeakingChanged(IParticipant participant)
+    //{
+    //    if (participant.SpeechDetected)
+    //    {
+    //        Debug.Log("Player started speaking");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Player stopped speaking");
+    //    }
+    //}
+
+    //private bool IsLocalPlayer(IParticipant participant)
+    //{
+    //    // Implement your logic to determine if the participant is the local player
+    //    // This could be based on the participant's unique identifier or other criteria
+    //    return false;
+    //}
+
+    //**********************************************
 
     public void Logout()
     {
@@ -433,14 +468,38 @@ public class VivoxVoiceManager : MonoBehaviour
         string username = valueEventArg.Value.Account.Name;
         ChannelId channel = valueEventArg.Value.ParentChannelSession.Key;
         string property = valueEventArg.PropertyName;
+        //Debug.Log("property m_Account Name" + Instance.m_Account.DisplayName);
+        //Debug.Log("property InAudio " + participant.InAudio);
+        //Debug.Log("property DisplayName " + participant.Account.DisplayName);
+        //Debug.Log("property SpeechDetected " + participant.SpeechDetected);
+
+        
 
         switch (property)
         {
             case "SpeechDetected":
                 {
-                    OnSpeaking();
                     VivoxLog($"OnSpeechDetectedEvent: {username} in {channel}.");
                     OnSpeechDetectedEvent?.Invoke(username, channel, valueEventArg.Value.SpeechDetected);
+
+                    if (participant.Account.DisplayName == Instance.m_Account.DisplayName)
+                    {
+                        if (participant.SpeechDetected == true)
+                        {
+                            OnSpeaking();
+
+                            //Debug.Log("<color=red>DETECTION </color>" + DateTime.Now.ToString() + Instance.m_Account.DisplayName);
+                        }
+                        else if (participant.SpeechDetected == false)
+                        {
+                            if (speakingTime < 0.5f)
+                                speakingTime = 0;
+                            OnEndSpeaking();
+
+                            //Debug.Log("<color=blue>RELEASE </color>" + DateTime.Now.ToString() + Instance.m_Account.DisplayName);
+                        }
+                    }
+
                     break;
                 }
             case "AudioEnergy":
@@ -453,39 +512,50 @@ public class VivoxVoiceManager : MonoBehaviour
         }
     }
 
+    private void ResetTImer()
+    {
+        mutedTimer = timerMax;
+    }
+
     private void OnSpeaking()
     {
+        if (speakingTime < 0.01f)
+        {
+            whisper.RecordingStart();
+            Debug.Log("[<color=yellow>SPEECH START</color>]" + $" [{DateTime.Now}] [{Instance.m_Account.DisplayName}]");
+        }
+
         isSpeaking = true;
         ResetTImer();
-        whisper.RecordingStart();
-        Debug.Log("<color=purple>Speaking Start</color>: ");
     }
 
     private void OnEndSpeaking()
     {
-        whisper.RecordingEnd();
-        Debug.Log("<color=blue>Speaking Finished</color>: ");
+        isSpeaking = false;
+    }
+
+    private void SendVoiceToGPT()
+    {
+        Debug.Log("[<color=red>SPEECH END</color>]" + $" [{DateTime.Now}] [{Instance.m_Account.DisplayName}]");
+
+       whisper.RecordingEnd();
     }
 
     private void Update()
     {
-        if (isSpeaking)
+        if (!isSpeaking && speakingTime > 0.5f)
         {
-            speakingTime += Time.deltaTime;
             mutedTimer -= Time.deltaTime;
             if (mutedTimer < 0)
             {
                 isSpeaking = false;
-                if (speakingTime < 1f)
-                {
-                    Debug.Log("<color=red>Speaking time is too short!</color>");
-                }
-                else
-                {
-                    OnEndSpeaking();
-                }
                 speakingTime = 0;
+                SendVoiceToGPT();
             }
+        }
+        else if (isSpeaking)
+        {
+            speakingTime += Time.deltaTime;
         }
     }
 
