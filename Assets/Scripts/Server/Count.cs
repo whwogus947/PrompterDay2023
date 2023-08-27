@@ -10,3 +10,14 @@ public struct Counters
     [FirestoreProperty]
     public string UserName { get; set; }
 }
+
+[FirestoreData]
+public struct textDatas
+{
+    [FirestoreProperty]
+    public string UserName { get; set; }
+    [FirestoreProperty]
+    public string Text { get; set; }
+    [FirestoreProperty]
+    public string Time { get; set; }
+}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Firestore;
@@ -12,6 +13,7 @@ public class FirestoreManager : MonoBehaviour
     [SerializeField] InputField inputUI;
     FirebaseFirestore db;
     ListenerRegistration listenerRegistration;
+    int num = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +55,13 @@ public class FirestoreManager : MonoBehaviour
             // GetData();
         });
 
+        string name = "yejin";
+        string text = "안녕하세요";
+        System.DateTime localDate = System.DateTime.Now;
+        string formattedTime = localDate.ToString("yyyy.MM.dd HH:mm:ss");
+
+        sendTextToServer(name, text, formattedTime);
+
     }
 
     void GetData()
@@ -61,6 +70,27 @@ public class FirestoreManager : MonoBehaviour
         {
             Counters counter = task.Result.ConvertTo<Counters>();
             countUI.text = counter.Count.ToString();
+        });
+    }
+
+    void sendTextToServer(string userName, string text, string time)
+    {
+        textDatas textData = new textDatas
+        {
+            UserName = userName,
+            Text = text,
+            Time = time
+        };
+
+        num += 1;
+        string partName = "마케팅";
+        string meetingName = partName + System.DateTime.Now.ToString(" yyyy년 MM월 dd일") + " 회의";
+
+        DocumentReference textRef = db.Collection(meetingName).Document(num.ToString());
+        textRef.SetAsync(textData).ContinueWithOnMainThread(task =>
+        {
+            Debug.Log("Updated Counter");
+            // GetData();
         });
     }
 }
