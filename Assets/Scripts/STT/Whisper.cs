@@ -9,7 +9,6 @@ namespace OpenAI
     {
         [SerializeField] private Dropdown dropdown;
         public int duration = 120;
-        public AudioSource audio;
 
         private readonly string fileName = "output.wav";
         
@@ -17,7 +16,6 @@ namespace OpenAI
         private bool isRecording;
         private float time;
         private OpenAIApi openai = new OpenAIApi("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");
-        private float debugTimer = 0f;
 
         private void Start()
         {
@@ -75,8 +73,6 @@ namespace OpenAI
 
         public void RecordingEnd()
         {
-            //Debug.Log("Timer : " + debugTimer);
-            debugTimer = 0f;
             time = 0;
             isRecording = false;
             EndRecording().Forget();
@@ -95,6 +91,7 @@ namespace OpenAI
             {
                 FileData = new FileData() { Data = data, Name = "audio.wav" },
                 // File = Application.persistentDataPath + "/" + fileName,
+                Prompt = "If the voice is not detected, return empty.",
                 Model = "whisper-1",
                 Language = "ko"
             };
@@ -108,7 +105,6 @@ namespace OpenAI
             if (isRecording)
             {
                 time += Time.deltaTime;
-                debugTimer = time;
                 if (time >= duration)
                 {
                     RecordingEnd();
