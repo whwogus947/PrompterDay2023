@@ -9,7 +9,8 @@ namespace OpenAI
     {
         [SerializeField] private Dropdown dropdown;
         public int duration = 120;
-        
+        public AudioSource audio;
+
         private readonly string fileName = "output.wav";
         
         private AudioClip clip;
@@ -66,6 +67,7 @@ namespace OpenAI
             Destroy(recordedClip);
 
             Debug.Log(newClip.length);
+            clip = newClip;
         }
 
         public void RecordingEnd()
@@ -83,6 +85,9 @@ namespace OpenAI
             var index = PlayerPrefs.GetInt("user-mic-device-index");
             RecordAsSample(dropdown.options[index].text, clip);
             Microphone.End(dropdown.options[index].text);
+
+            audio.clip = clip;
+            audio.Play();
 
             //byte[] data = SaveWav.Save(fileName, clip);
 
