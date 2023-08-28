@@ -269,6 +269,8 @@ public class VivoxVoiceManager : MonoBehaviour
         if (LoginState == LoginState.LoggedIn)
         {
             Channel channel = new Channel(channelName, channelType, properties);
+            
+            Debug.Log("CHANNEL : " + channelName);
 
             IChannelSession channelSession = LoginSession.GetChannelSession(channel);
             channelSession.PropertyChanged += OnChannelPropertyChanged;
@@ -483,7 +485,7 @@ public class VivoxVoiceManager : MonoBehaviour
                     OnSpeechDetectedEvent?.Invoke(username, channel, valueEventArg.Value.SpeechDetected);
 
                     if (participant.Account.DisplayName == Instance.m_Account.DisplayName)
-                    {
+                    {//paricipant.IsSelf
                         if (participant.SpeechDetected == true)
                         {
                             OnSpeaking();
