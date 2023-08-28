@@ -5,45 +5,39 @@ using UnityEngine;
 
 public class JsonConverter : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public static GPTResult TestAsSample()
     {
-        
+        string jsonFilePath = "city"; // Without the file extension
+        TextAsset jsonTextAsset = Resources.Load<TextAsset>(jsonFilePath);
+        string jsonText = jsonTextAsset.text;
+        return Convert(jsonText);
     }
 
-    public void Convert(string json)
+    public static GPTResult Convert(string json)
     {
         if (string.IsNullOrEmpty(json))
-            return;
+            return null;
+
         GPTResult result = JsonUtility.FromJson<GPTResult>(json);
         
-        Debug.Log(result.title);
-        Debug.Log(result.item.Length);
-        Debug.Log(result.conclusion);
+        //Debug.Log(result.title);
+        //Debug.Log(result.item.Length);
+        //Debug.Log(result.conclusion);
+
+        return result;
     }
 
     [System.Serializable]
     public class GPTResult
     {
-        public Title title;
-        public Item[] item;
-        public Conclusion conclusion;
-    }
-
-    [System.Serializable]
-    public class Title
-    {
         public string title;
-        public Title(string text)
-        {
-            this.title = text;
-        }
+        public Item[] item;
+        public string conclusion;
     }
 
     [System.Serializable]
@@ -58,17 +52,6 @@ public class JsonConverter : MonoBehaviour
             this.speaker = speaker;
             this.message = message;
             this.time = time;
-        }
-    }
-
-    [System.Serializable]
-    public class Conclusion
-    {
-        public string conclusion;
-
-        public Conclusion(string conclusion)
-        {
-            this.conclusion = conclusion;
         }
     }
 }
