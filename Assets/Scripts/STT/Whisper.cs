@@ -9,6 +9,11 @@ namespace OpenAI
     {
         [SerializeField] private Dropdown dropdown;
         public int duration = 120;
+        public FirestoreExample firestore;
+        public VivoxVoiceManager voiceManager;
+        public bool isMessageToServer = false;
+        public string userName;
+        public string channelName;
 
         private readonly string fileName = "output.wav";
         
@@ -97,7 +102,24 @@ namespace OpenAI
             };
             var res = await openai.CreateAudioTranscription(req);
 
+            if (!IsSentenceMadeOfSpaces(res.Text) && isMessageToServer)
+            {
+                firestore.Send(channelName, userName, res.Text);
+            }
+
             Debug.Log("<color=green>RESULT</color> : " + res.Text);
+        }
+
+        private bool IsSentenceMadeOfSpaces(string sentence)
+        {
+            foreach (char c in sentence)
+            {
+                if (!char.IsWhiteSpace(c))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void Update()

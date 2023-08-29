@@ -83,6 +83,7 @@ public class VivoxVoiceManager : MonoBehaviour
     private string _server;
 
     public Whisper whisper;
+    public ChatRoomMaker roomMaker;
 
     private float mutedTimer;
     private float timerMax = 2.5f;
@@ -215,6 +216,8 @@ public class VivoxVoiceManager : MonoBehaviour
         });
         AdjustVolume(AudioInputDevices, 0);
 
+        whisper.channelName = roomMaker.lobbyScreen.LobbyChannelName;
+        whisper.userName = displayName;
     }
 
     //**********************************************

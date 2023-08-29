@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &26436497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 26436499}
+  - component: {fileID: 26436498}
+  m_Layer: 0
+  m_Name: Firestore
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &26436498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26436497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f559185defeab4b9ad1524326798a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &26436499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26436497}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.3556976, y: -0.47695482, z: 1.0146523}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!850595691 &89618281
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -472,6 +516,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropdown: {fileID: 938218474}
   duration: 30
+  firestore: {fileID: 26436498}
+  voiceManager: {fileID: 812447364}
+  isMessageToServer: 1
+  userName: 
+  channelName: 
 --- !u!4 &251905038
 Transform:
   m_ObjectHideFlags: 0
@@ -3285,6 +3334,7 @@ MonoBehaviour:
   _domain: mtu1xp.vivox.com
   _server: https://unity.vivox.com/appconfig/14568-promp-59212-udash
   whisper: {fileID: 251905037}
+  roomMaker: {fileID: 573590033}
 --- !u!1 &817366678
 GameObject:
   m_ObjectHideFlags: 0
