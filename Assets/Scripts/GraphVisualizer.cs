@@ -53,14 +53,15 @@ public class GraphVisualizer : MonoBehaviour
         {
             float dist = GetDistance(currentPosition, pos[currentIdx]);
 
-            if (dist <= 0.02)
+            var unitDist = drawSpeed * (pos[currentIdx] - currentPosition).normalized * Time.deltaTime;
+            if (dist <= unitDist.magnitude * 1.2f)
             {
                 currentIdx++;
                 if (currentIdx >= pos.Length)
                     break;
                 polyline.AddPoint(pos[currentIdx]);
             }
-            var nextPosition = drawSpeed * (pos[currentIdx] - currentPosition).normalized * Time.deltaTime + currentPosition;
+            var nextPosition = unitDist + currentPosition;
             polyline.SetPointPosition(currentIdx, nextPosition);
 
             currentPosition = nextPosition;

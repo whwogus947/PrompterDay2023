@@ -114,7 +114,7 @@ MonoBehaviour:
   stencilWriteMask: 255
   points: []
   geometry: 0
-  joins: 0
+  joins: 1
   closed: 0
   thickness: 8
   thicknessSpace: 1
