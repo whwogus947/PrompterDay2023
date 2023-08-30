@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class ChatRoomMaker : MonoBehaviour
 {
+    public static string RoomName;
     public int roomCount = 8;
     public LobbyScreenUI lobbyScreen;
 

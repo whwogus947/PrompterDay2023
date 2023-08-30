@@ -274,6 +274,7 @@ public class VivoxVoiceManager : MonoBehaviour
             Channel channel = new Channel(channelName, channelType, properties);
             
             Debug.Log("CHANNEL : " + channelName);
+            ChatRoomMaker.RoomName = channelName;
 
             IChannelSession channelSession = LoginSession.GetChannelSession(channel);
             channelSession.PropertyChanged += OnChannelPropertyChanged;
@@ -294,6 +295,8 @@ public class VivoxVoiceManager : MonoBehaviour
                     return;
                 }
             });
+            //Debug.Log(LoginSession.GetChannelSession(channel).Participants.Count);
+            //Debug.Log(channelSession.Participants.Count);
         }
         else
         {
@@ -486,6 +489,9 @@ public class VivoxVoiceManager : MonoBehaviour
                 {
                     VivoxLog($"OnSpeechDetectedEvent: {username} in {channel}.");
                     OnSpeechDetectedEvent?.Invoke(username, channel, valueEventArg.Value.SpeechDetected);
+
+                    if (!whisper.gameObject.activeSelf)
+                        return;
 
                     if (participant.Account.DisplayName == Instance.m_Account.DisplayName)
                     {//paricipant.IsSelf

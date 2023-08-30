@@ -115,6 +115,18 @@ public class TextChatUI : MonoBehaviour
         ClearOutTextField();
     }
 
+    public void OnConferenceFinishedMessage()
+    {
+        SendSystemMessage("회의가 종료되었습니다.");
+        FirestoreExample.Inst.LogAllData(ChatRoomMaker.RoomName);
+    }
+
+    private void SendSystemMessage(string message)
+    {
+        _vivoxVoiceManager.SendTextMessage("[Notice] : " + message, _lobbyChannelId);
+        ClearOutTextField();
+    }
+
     public static string TruncateAtWord(string value, int length)
     {
         if (value == null || value.Length < length || value.IndexOf(" ", length) == -1)

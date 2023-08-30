@@ -19,6 +19,7 @@ public class LobbyScreenUI : MonoBehaviour
     public GameObject LobbyScreen;
     public GameObject ConnectionIndicatorDot;
     public GameObject ConnectionIndicatorText;
+    public GameObject endMeeting;
 
     private Image _connectionIndicatorDotImage;
     private Text _connectionIndicatorDotText;
@@ -92,8 +93,14 @@ public class LobbyScreenUI : MonoBehaviour
     {
         if (channel.Name == LobbyChannelName && participant.IsSelf)
         {
+            int participantsCount = _vivoxVoiceManager.ActiveChannels[channel].Participants.Count;
+            Debug.Log("PARTICIPANTS COUNT : " + _vivoxVoiceManager.ActiveChannels[channel].Participants.Count);
             // if joined the lobby channel and we're not hosting a match
             // we should request invites from hosts
+            if (participantsCount <= 1)
+            {
+                endMeeting.SetActive(true);
+            }
         }
     }
 

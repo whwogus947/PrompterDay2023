@@ -804,9 +804,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f559185defeab4b9ad1524326798a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateCountButton: {fileID: 1618018231}
-  countUI: {fileID: 1629066421}
-  inputUI: {fileID: 1788671162}
 --- !u!4 &1584236501
 Transform:
   m_ObjectHideFlags: 0
@@ -840,7 +837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1618018230
 RectTransform:
   m_ObjectHideFlags: 0
