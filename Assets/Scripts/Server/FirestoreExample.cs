@@ -8,6 +8,7 @@ using Firebase.Extensions;
 using Cysharp.Threading.Tasks;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using System;
+using OpenAI;
 
 public class FirestoreExample : MonoBehaviour
 {
@@ -75,6 +76,7 @@ public class FirestoreExample : MonoBehaviour
             result += fieldData + "\n";
         }
 
+        ChatDeliever.Inst.Send(result).Forget();
         Debug.Log(result);
     }
 
