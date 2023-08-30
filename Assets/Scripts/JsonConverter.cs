@@ -18,6 +18,15 @@ public class JsonConverter : MonoBehaviour
         return Convert(jsonText);
     }
 
+    public void ConvertToJson()
+    {
+        string jsonFilePath = "city"; // Without the file extension
+        TextAsset jsonTextAsset = Resources.Load<TextAsset>(jsonFilePath);
+        string jsonText = jsonTextAsset.text;
+        Debug.Log(Convert(jsonText));
+    }
+
+
     public static GPTResult Convert(string json)
     {
         if (string.IsNullOrEmpty(json))
