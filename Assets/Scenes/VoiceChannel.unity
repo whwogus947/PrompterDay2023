@@ -495,6 +495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 251905038}
   - component: {fileID: 251905037}
+  - component: {fileID: 251905039}
   m_Layer: 0
   m_Name: OpenAI
   m_TagString: Untagged
@@ -536,6 +537,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &251905039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251905036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084287c0ed4d4414bb74b6b9a66f0714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &268091402
 GameObject:
   m_ObjectHideFlags: 0
