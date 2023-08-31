@@ -21,9 +21,9 @@ public class ContentVisualManager : MonoBehaviour
     {
         var startPosition = transform.position;
         var title = GenerateTopicBox(startPosition);
-        title.SetText(result.meetingTopic);
+        title.SetText(result.MeetingTopic);
 
-        var ideas = result.meetingAgenda;
+        var ideas = result.MeetingAgenda;
         float leftEnd = -boxXInterval * (ideas.Length - 1) / 2f;
 
         for (var i = 0; i < ideas.Length; i++)
@@ -31,7 +31,7 @@ public class ContentVisualManager : MonoBehaviour
             var pos = (leftEnd + i * boxXInterval) * Vector3.right + startPosition + -boxYInterval * Vector3.up;
             var ideaBox = GenerateTopicBox(pos);
             title.BottomToTop(ideaBox).Forget();
-            ideaBox.SetText(ideas[i].summaryOfIdea);
+            ideaBox.SetText(ideas[i].SummaryOfIdea);
         }
     }
 

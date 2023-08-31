@@ -46,9 +46,9 @@ public class JsonConverter : MonoBehaviour
         
         GPTResult result = JsonUtility.FromJson<GPTResult>(json);
 
-        // Debug.Log(result.meetingTopic);
-        // Debug.Log(result.meetingAgenda);
-        // Debug.Log(result.conclusion);
+        Debug.Log(result.MeetingTopic);
+        Debug.Log(result.MeetingAgenda);
+        Debug.Log(result.Conclusion);
 
         return result;
     }
@@ -56,42 +56,42 @@ public class JsonConverter : MonoBehaviour
     [System.Serializable]
     public class GPTResult
     {
-        public string meetingTopic;
-        public MeetingAgenda[] meetingAgenda;
-        public int selectedIdea;
-        public string conclusion;
-        public List<string> topicForFurtherDiscussion;
+        public string MeetingTopic;
+        public MeetingAgenda[] MeetingAgenda;
+        public int SelectedIdea;
+        public string Conclusion;
+        public List<string> TopicForFurtherDiscussion;
     }
 
     [System.Serializable]
     public class MeetingAgenda
     {
-        public int numberOfIdea;
-        public string summaryOfIdea;
-        public string speaker;
-        public string contentsOfIdea;
-        public Comments[] comments;
+        public int NumberOfIdea;
+        public string SummaryOfIdea;
+        public string Speaker;
+        public string ContentsOfIdea;
+        public Comments[] Comments;
     
         public MeetingAgenda(int numberOfIdea, string summaryOfIdea, string speaker, string contentsOfIdea, Comments[] comments)
         {
-            this.numberOfIdea = numberOfIdea;
-            this.summaryOfIdea = summaryOfIdea;
-            this.speaker = speaker;
-            this.contentsOfIdea = contentsOfIdea;
-            this.comments = comments;
+            this.NumberOfIdea = numberOfIdea;
+            this.SummaryOfIdea = summaryOfIdea;
+            this.Speaker = speaker;
+            this.ContentsOfIdea = contentsOfIdea;
+            this.Comments = comments;
         }
     }
     [System.Serializable]
     public class Comments
     {
-        public string speaker;
-        public string contentsOfComment;
-        public bool isPositive;
+        public string Speaker;
+        public string ContentsOfComment;
+        public bool IsPositive;
 
         public Comments(string speaker, string contentsOfComment, bool isPositive){
-            this.speaker = speaker;
-            this.contentsOfComment = contentsOfComment;
-            this.isPositive = isPositive;
+            this.Speaker = speaker;
+            this.ContentsOfComment = contentsOfComment;
+            this.IsPositive = isPositive;
         }
     }
 
