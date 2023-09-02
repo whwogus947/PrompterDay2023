@@ -16,6 +16,7 @@ public class TextChatUI : MonoBehaviour
     private ScrollRect _textChatScrollRect;
 
     public GameObject ChatContentObj;
+    public GameObject clone;
     public GameObject MessageObject;
     public Button EnterButton;
     public Button SendTTSMessageButton;
@@ -209,12 +210,20 @@ public class TextChatUI : MonoBehaviour
 
         var newMessageObj = Instantiate(MessageObject, ChatContentObj.transform);
         _messageObjPool.Add(newMessageObj);
-        Text newMessageText = newMessageObj.GetComponent<Text>();
+        Text newMessageText = newMessageObj.GetComponentInChildren<Text>();
+        var newMessageImage = newMessageObj.GetComponent<Image>();
 
         if (channelTextMessage.FromSelf)
         {
+            newMessageImage.color = new Color(1, 1, 1, 0f);
+            newMessageText.gameObject.SetActive(false);
+            var selfMessage = Instantiate(clone, newMessageObj.transform);
+            var selfText = selfMessage.GetComponentInChildren<Text>();
+            selfText.text = newMessageText.text;
+            newMessageText = selfText;
+
             newMessageText.alignment = TextAnchor.MiddleRight;
-            newMessageText.text = string.Format($"{channelTextMessage.Message} :<color=blue>{sender} </color>\n<color=#5A5A5A><size=8>{channelTextMessage.ReceivedTime}</size></color>");
+            newMessageText.text = string.Format($"{channelTextMessage.Message} :<color=blue>{sender} </color>\n<color=#5A5A5A><size=24>{channelTextMessage.ReceivedTime}</size></color>");
             StartCoroutine(SendScrollRectToBottom());
         }
         else

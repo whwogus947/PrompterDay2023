@@ -28,8 +28,8 @@ public class LoginScreenUI : MonoBehaviour
 
 #if !(UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_STADIA)
         DisplayNameInput.interactable = false;
-#else
-        DisplayNameInput.onEndEdit.AddListener((string text) => { LoginToVivoxService(); });
+//#else
+//        DisplayNameInput.onEndEdit.AddListener((string text) => { LoginToVivoxService(); });
 #endif
         LoginButton.onClick.AddListener(() => { LoginToVivoxService(); });
 
