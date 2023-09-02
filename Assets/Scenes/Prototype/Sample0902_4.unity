@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f559185defeab4b9ad1524326798a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultBox: {fileID: 1069987783}
 --- !u!4 &26436499
 Transform:
   m_ObjectHideFlags: 0
@@ -3270,6 +3271,42 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: TextChatUI, Assembly-CSharp
         m_MethodName: OnConferenceFinishedMessage
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 413916318}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
+        m_MethodName: set_interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1357532244}
+        m_TargetAssemblyTypeName: LobbyScreenUI, Assembly-CSharp
+        m_MethodName: SetInteractiveFalse
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 413916316}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 125978084}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12893,7 +12930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1813575100
 RectTransform:
   m_ObjectHideFlags: 0

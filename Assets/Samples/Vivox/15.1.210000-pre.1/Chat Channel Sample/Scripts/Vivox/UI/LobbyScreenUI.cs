@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -70,6 +71,16 @@ public class LobbyScreenUI : MonoBehaviour
         LogoutButton.onClick.RemoveAllListeners();
     }
 
+    private void Start()
+    {
+        //ShowWhenResultReady().Forget();
+    }
+
+    public void SetInteractiveFalse(GameObject target)
+    {
+        target.GetComponent<Image>().color = new Color(1, 1, 1, 0.2f);
+    }
+
     #endregion
 
     private void JoinLobbyChannel()
@@ -86,6 +97,12 @@ public class LobbyScreenUI : MonoBehaviour
         _vivoxVoiceManager.DisconnectAllChannels();
 
         _vivoxVoiceManager.Logout();
+    }
+
+    private async UniTaskVoid ShowWhenResultReady()
+    {
+        await UniTask.WaitUntil(() => FirestoreExample.IsConferenceEnd == true);
+        showResult.SetActive(true);
     }
 
     #region Vivox Callbacks
@@ -106,7 +123,7 @@ public class LobbyScreenUI : MonoBehaviour
             }
             else
             {
-                showResult.SetActive(true);
+                //showResult.SetActive(true);
             }
         }
     }

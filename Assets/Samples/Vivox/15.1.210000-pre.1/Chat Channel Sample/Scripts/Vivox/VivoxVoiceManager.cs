@@ -275,6 +275,7 @@ public class VivoxVoiceManager : MonoBehaviour
             
             Debug.Log("CHANNEL : " + channelName);
             ChatRoomMaker.RoomName = channelName;
+            FirestoreExample.Inst.OpenListener();
 
             IChannelSession channelSession = LoginSession.GetChannelSession(channel);
             channelSession.PropertyChanged += OnChannelPropertyChanged;

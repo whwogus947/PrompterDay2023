@@ -8,16 +8,22 @@ using Firebase.Extensions;
 using Cysharp.Threading.Tasks;
 using System;
 using OpenAI;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class FirestoreExample : MonoBehaviour
 {
     public static FirestoreExample Inst { get; private set; }
+    public static bool IsConferenceEnd = false;
+
+    public GameObject resultBox;
 
     private FirebaseFirestore db;
     private ListenerRegistration listenerRegistration;
 
     private void Awake()
     {
+        IsConferenceEnd = false;
+
         if (Inst == null)
             Inst = this;
         else
@@ -28,19 +34,42 @@ public class FirestoreExample : MonoBehaviour
     {
         db = FirebaseFirestore.DefaultInstance;
         //updateCountButton.onClick.AddListener(OnHandleClick);
-        //listenerRegistration = db.Collection("User").Document("Counters").Listen(snapshot =>
-        //{
-        //    Counters counter = snapshot.ConvertTo<Counters>();
-        //    countUI.text = counter.Count.ToString();
-        //});
+        
 
 
         // GetData();
+        //LogAllData();
+        //SendRoomDataToServer("Room1232", false, "test");
+        //GetRoomInformation().Forget();
     }
 
     void OnDestroy()
     {
-        //listenerRegistration.Stop();
+        listenerRegistration.Stop();
+    }
+
+    public void OpenListener()
+    {
+        SendRoomDataToServer(ChatRoomMaker.RoomName, false, "");
+
+        listenerRegistration = db.Collection(ChatRoomMaker.RoomName).Document("ConferenceInfo").Listen(snapshot =>
+        {
+            ConferenceInfo info = snapshot.ConvertTo<ConferenceInfo>();
+            IsConferenceEnd = info.IsConferenceEnd;
+            resultBox.SetActive(IsConferenceEnd);
+        });
+    }
+
+    public void EndConference(string summary)
+    {
+        SendRoomDataToServer(ChatRoomMaker.RoomName, true, summary);
+    }
+
+    public async UniTaskVoid GetRoomInformation()
+    {
+        ConferenceInfo roomInfo = await GetConferenceInformation("Room1232");
+        Debug.Log(roomInfo.IsConferenceEnd);
+        Debug.Log(roomInfo.FormedResult);
     }
 
     public void Send(string channelName, string userName, string message)
@@ -53,7 +82,7 @@ public class FirestoreExample : MonoBehaviour
         SendTextToServer(channelName, name, text, formattedTime);
     }
 
-    public void LogAllData(string roomName = "Room1321")
+    public void LogAllData(string roomName = "Room1232")
     {
         GetData(roomName).Forget();
     }
@@ -66,6 +95,10 @@ public class FirestoreExample : MonoBehaviour
         string result = "";
         foreach (DocumentSnapshot documentSnapshot in allCitiesQuerySnapshot.Documents)
         {
+            if (documentSnapshot.Id == "ConferenceInfo")
+            {
+                continue;
+            }
             Dictionary<string, object> city = documentSnapshot.ToDictionary();
             foreach (KeyValuePair<string, object> pair in city)
             {
@@ -74,9 +107,10 @@ public class FirestoreExample : MonoBehaviour
             string fieldData = $"[{DataOrganizer.FieldsData["Time"]}] [{DataOrganizer.FieldsData["UserName"]}] [{DataOrganizer.FieldsData["Text"]}]";
             result += fieldData + "\n";
         }
-
-        ChatDeliever.Inst.Send(result).Forget();
         Debug.Log(result);
+
+        string msg = await ChatDeliever.Inst.Send(result);
+        EndConference(msg);
     }
 
     private void SendTextToServer(string channelName, string userName, string text, string time)
@@ -93,33 +127,47 @@ public class FirestoreExample : MonoBehaviour
         DocumentReference textRef = db.Collection(channelName).Document(detailedTime);
         textRef.SetAsync(textData).ContinueWithOnMainThread(task =>
         {
-            Debug.Log("Updated Counter");
+            Debug.Log("Text Updated");
+        });
+    }
+
+    private void SendRoomDataToServer(string channelName, bool isEnd, string text)
+    {
+        ConferenceInfo textData = new ConferenceInfo
+        {
+            IsConferenceEnd = isEnd,
+            FormedResult = text,
+        };
+
+        DocumentReference textRef = db.Collection(channelName).Document("ConferenceInfo");
+        textRef.SetAsync(textData).ContinueWithOnMainThread(task =>
+        {
+            Debug.Log("ConferenceInfo Updated");
         });
     }
 
     private async UniTask<ConferenceInfo> GetConferenceInformation(string channelName)
     {
         DocumentSnapshot snapshot = await db.Collection(channelName).Document("ConferenceInfo").GetSnapshotAsync();
+        ConferenceInfo info = new ConferenceInfo();
 
         if (snapshot.Exists)
         {
             Dictionary<string, object> data = snapshot.ToDictionary();
 
-            ConferenceInfo info = new ConferenceInfo();
             if (data.ContainsKey("IsConferenceEnd"))
                 info.IsConferenceEnd = Boolean.Parse(data["IsConferenceEnd"].ToString());
             else if (data.ContainsKey("FormedResult"))
                 info.FormedResult = data["FormedResult"].ToString();
 
+            info = new ConferenceInfo(Boolean.Parse(data["IsConferenceEnd"].ToString()), data["FormedResult"].ToString());
             return info;
         }
         else
         {
             Debug.Log("No Conference Data");
         }
-
-        ConferenceInfo empty = new ConferenceInfo();
-        return empty;
+        return info;
     }
 }
 
@@ -130,4 +178,10 @@ public struct ConferenceInfo
     public bool IsConferenceEnd { get; set; }
     [FirestoreProperty]
     public string FormedResult { get; set; }
+
+    public ConferenceInfo(bool isConferenceEnd, string formedResult)
+    {
+        IsConferenceEnd = isConferenceEnd;
+        FormedResult = formedResult;
+    }
 }
