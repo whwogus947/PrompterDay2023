@@ -16,6 +16,8 @@ public class FirestoreExample : MonoBehaviour
     public static bool IsConferenceEnd = false;
 
     public GameObject resultBox;
+    public Whisper whisper;
+    public ContentVisualManager visualizer;
 
     private FirebaseFirestore db;
     private ListenerRegistration listenerRegistration;
@@ -57,6 +59,15 @@ public class FirestoreExample : MonoBehaviour
             ConferenceInfo info = snapshot.ConvertTo<ConferenceInfo>();
             IsConferenceEnd = info.IsConferenceEnd;
             resultBox.SetActive(IsConferenceEnd);
+            if (IsConferenceEnd)
+            {
+                whisper.gameObject.SetActive(false);
+                visualizer.visualizerTarget = info.FormedResult;
+            }
+            else
+            {
+                whisper.gameObject.SetActive(true);
+            }
         });
     }
 

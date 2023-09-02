@@ -7,14 +7,21 @@ public class ContentVisualManager : MonoBehaviour
 {
     public Canvas storage;
     public TopicBox topicBox;
+    public string visualizerTarget;
 
     private float boxYInterval = 5; 
     private float boxXInterval = 7; 
 
     void Start()
     {
-        JsonConverter.GPTResult sample = JsonConverter.TestAsSample();
-        ResultToUI(sample);
+        //JsonConverter.GPTResult sample = JsonConverter.TestAsSample();
+        //ResultToUI(sample);
+    }
+
+    public void VisualizeFromServer()
+    {
+        var rs = JsonConverter.Convert(visualizerTarget);
+        ResultToUI(rs);
     }
 
     public void ResultToUI(JsonConverter.GPTResult result)
