@@ -14,7 +14,11 @@ public class RosterItem : MonoBehaviour
     public Sprite MutedImage;
     public Sprite SpeakingImage;
     public Sprite NotSpeakingImage;
+    public GameObject onSpeakingIcon;
 
+    private Image avatar;
+    private Color mutedColor = new Color(1, 1, 1, 0.2f);
+    private Color speakingColor = new Color(1, 1, 1, 1f);
     private bool isMuted;
     public bool IsMuted
     {
@@ -39,6 +43,11 @@ public class RosterItem : MonoBehaviour
         }                           
     }
 
+    private void Awake()
+    {
+        avatar = GetComponent<Image>();    
+    }
+
     private bool isSpeaking;
     public bool IsSpeaking
     {
@@ -59,17 +68,23 @@ public class RosterItem : MonoBehaviour
         {
             ChatStateImage.sprite = MutedImage;
             ChatStateImage.gameObject.transform.localScale = Vector3.one;
+            avatar.color = mutedColor;
+            onSpeakingIcon.SetActive(false);
         }
         else
         {
+            avatar.color = speakingColor;
+
             if (isSpeaking)
             {
                 ChatStateImage.sprite = SpeakingImage;
+                onSpeakingIcon.SetActive(true);
                 ChatStateImage.gameObject.transform.localScale = Vector3.one;
             }
             else
             {
                 ChatStateImage.sprite = NotSpeakingImage;
+                onSpeakingIcon.SetActive(false);
                 //ChatStateImage.gameObject.transform.localScale = Vector3.one * 0.85f;
             }
         }

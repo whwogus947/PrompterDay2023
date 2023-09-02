@@ -4,6 +4,7 @@ using UnityEngine;
 using VivoxUnity;
 using System.Linq;
 using System;
+using UnityEngine.UI;
 
 public class RosterManager : MonoBehaviour
 {
@@ -13,10 +14,11 @@ public class RosterManager : MonoBehaviour
     private Dictionary<ChannelId, List<RosterItem>> rosterObjects = new Dictionary<ChannelId, List<RosterItem>>();
 
     public GameObject rosterItemPrefab;
+    public Sprite[] avatarImages;
 
-    // Start is called before the first frame update
     void Start()
     {
+
     }
 
     private void Awake()
@@ -91,6 +93,8 @@ public class RosterManager : MonoBehaviour
         {
             GameObject newRosterObject = GameObject.Instantiate(rosterItemPrefab, this.gameObject.transform);
             RosterItem newRosterItem = newRosterObject.GetComponent<RosterItem>();
+            var count = Mathf.Clamp(transform.childCount - 1, 0, 3);
+            newRosterItem.GetComponent<Image>().sprite = avatarImages[count];
             List<RosterItem> thisChannelList;
 
             if (rosterObjects.ContainsKey(channel))

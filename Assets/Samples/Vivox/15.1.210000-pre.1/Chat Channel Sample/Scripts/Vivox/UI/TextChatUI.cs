@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using VivoxUnity;
 using System.Collections.Generic;
 using System.Collections;
+using TMPro;
 
 public class TextChatUI : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class TextChatUI : MonoBehaviour
     public Button SendTTSMessageButton;
     public InputField MessageInputField;
     public Toggle ToggleTTS;
+    public TMP_Text dateText;
 
 
     private void Awake()
@@ -34,6 +36,11 @@ public class TextChatUI : MonoBehaviour
         }
 
         ClearOutTextField();
+
+        var m = System.DateTime.Now.ToString("M");
+        var d = System.DateTime.Now.ToString("d");
+        var week = System.DateTime.Now.ToString("dddd");
+        dateText.text = $"{m} {week}";
 
         _vivoxVoiceManager.OnParticipantAddedEvent += OnParticipantAdded;
         _vivoxVoiceManager.OnTextMessageLogReceivedEvent += OnTextMessageLogReceivedEvent;

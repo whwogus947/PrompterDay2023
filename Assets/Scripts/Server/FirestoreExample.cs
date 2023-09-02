@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using Cysharp.Threading.Tasks;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using System;
 using OpenAI;
 

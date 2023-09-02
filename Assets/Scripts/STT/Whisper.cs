@@ -21,17 +21,20 @@ namespace OpenAI
         private bool isRecording;
         private float time;
         private OpenAIApi openai = new OpenAIApi("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");
+        private string micDevice = "";
 
         private void Start()
         {
-            foreach (var device in Microphone.devices)
-            {
-                dropdown.options.Add(new Dropdown.OptionData(device));
-            }
-            dropdown.onValueChanged.AddListener(ChangeMicrophone);
-            
-            var index = PlayerPrefs.GetInt("user-mic-device-index");
-            dropdown.SetValueWithoutNotify(index);
+            micDevice = Microphone.devices[0];
+
+            //foreach (var device in Microphone.devices)
+            //{
+            //    dropdown.options.Add(new Dropdown.OptionData(device));
+            //}
+            //dropdown.onValueChanged.AddListener(ChangeMicrophone);
+
+            //var index = PlayerPrefs.GetInt("user-mic-device-index");
+            //dropdown.SetValueWithoutNotify(index);
         }
 
         private void ChangeMicrophone(int index)
@@ -45,7 +48,8 @@ namespace OpenAI
             isRecording = true;
 
             var index = PlayerPrefs.GetInt("user-mic-device-index");
-            clip = Microphone.Start(dropdown.options[index].text, false, duration, 44100);
+            clip = Microphone.Start(micDevice, false, duration, 44100);
+            //clip = Microphone.Start(dropdown.options[index].text, false, duration, 44100);
 
         }
 
@@ -87,8 +91,8 @@ namespace OpenAI
         {
             //Debug.Log("Transcripting...");
             var index = PlayerPrefs.GetInt("user-mic-device-index");
-            RecordAsSample(dropdown.options[index].text, clip);
-            Microphone.End(dropdown.options[index].text);
+            RecordAsSample(micDevice, clip);
+            Microphone.End(micDevice);
 
             byte[] data = SaveWav.Save(fileName, clip);
 
