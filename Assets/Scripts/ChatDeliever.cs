@@ -72,7 +72,8 @@ namespace OpenAI
             var completionResponse = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
             {
                 Model = "gpt-3.5-turbo-0613",
-                Messages = messages
+                Messages = messages,
+                Temperature = 0.75f,
             });
 
             if (completionResponse.Choices != null && completionResponse.Choices.Count > 0)
