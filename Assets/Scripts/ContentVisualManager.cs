@@ -72,10 +72,10 @@ public class ContentVisualManager : MonoBehaviour
         {
             var pos = (leftEnd + i * boxXInterval) * Vector3.up + startPosition + boxYInterval * Vector3.right;
             var ideaBox = GenerateTopicBox(pos);
-            ideaBox.topicIndex = ideas[i].NumberOfIdea;
+            ideaBox.topicIndex = ideas[i].NumberOfIdea - 1;
             title.BottomToTop(ideaBox).Forget();
             ideaBox.SetText(ideas[i].SummaryOfIdea);
-            if (ideaBox.topicIndex == jsonResult.SelectedIdea)
+            if (ideaBox.topicIndex == jsonResult.SelectedIdea - 1)
                 topicBox = ideaBox;
         }
         await UniTask.WaitUntil(() => ClearedCount >= ideas.Length);
