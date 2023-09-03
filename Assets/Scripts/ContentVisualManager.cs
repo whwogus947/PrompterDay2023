@@ -24,8 +24,8 @@ public class ContentVisualManager : MonoBehaviour
         if (Inst == null)
             Inst = this;
 
-        JsonConverter.GPTResult sample = JsonConverter.TestAsSample();
-        ResultToUI(sample);
+        //JsonConverter.GPTResult sample = JsonConverter.TestAsSample();
+        //ResultToUI(sample);
     }
 
     public void Summarize()
