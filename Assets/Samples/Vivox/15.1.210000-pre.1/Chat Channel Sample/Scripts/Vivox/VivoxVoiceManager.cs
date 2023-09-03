@@ -409,6 +409,7 @@ public class VivoxVoiceManager : MonoBehaviour
         // Look up the participant via the key.
         var participant = source[keyEventArg.Key];
         var username = participant.Account.Name;
+        ChatRoomMaker.roomUsers += username + ", ";
         var channel = participant.ParentChannelSession.Key;
         var channelSession = participant.ParentChannelSession;
 

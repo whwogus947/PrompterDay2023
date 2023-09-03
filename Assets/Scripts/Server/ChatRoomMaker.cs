@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ChatRoomMaker : MonoBehaviour
 {
     public static string RoomName;
+    public static string roomUsers;
     public int roomCount = 8;
     public LobbyScreenUI lobbyScreen;
 
@@ -15,6 +16,8 @@ public class ChatRoomMaker : MonoBehaviour
 
     private void Start()
     {
+        roomUsers = "";
+
         dropdown = GetComponent<TMP_Dropdown>();
 
         int half = roomCount / 2;
