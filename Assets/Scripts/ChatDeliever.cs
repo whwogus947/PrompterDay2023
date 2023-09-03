@@ -73,7 +73,7 @@ namespace OpenAI
             {
                 Model = "gpt-3.5-turbo-0613",
                 Messages = messages,
-                Temperature = 0.75f,
+                Temperature = 0.9f,
             });
 
             if (completionResponse.Choices != null && completionResponse.Choices.Count > 0)
