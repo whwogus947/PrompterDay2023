@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class TopicBox : MonoBehaviour
 {
+    public int topicIndex;
     public Transform top;
     public Transform bottom;
     public TMP_Text message;

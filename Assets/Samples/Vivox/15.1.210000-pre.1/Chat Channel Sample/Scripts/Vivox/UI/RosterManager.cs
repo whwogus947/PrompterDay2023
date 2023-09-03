@@ -94,7 +94,7 @@ public class RosterManager : MonoBehaviour
             GameObject newRosterObject = GameObject.Instantiate(rosterItemPrefab, this.gameObject.transform);
             RosterItem newRosterItem = newRosterObject.GetComponent<RosterItem>();
             var count = Mathf.Clamp(transform.childCount - 1, 0, 3);
-            newRosterItem.GetComponent<Image>().sprite = avatarImages[count];
+            newRosterItem.avatar.sprite = avatarImages[count];
             List<RosterItem> thisChannelList;
 
             if (rosterObjects.ContainsKey(channel))

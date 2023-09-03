@@ -16,7 +16,7 @@ public class RosterItem : MonoBehaviour
     public Sprite NotSpeakingImage;
     public GameObject onSpeakingIcon;
 
-    private Image avatar;
+    public Image avatar;
     private Color mutedColor = new Color(1, 1, 1, 0.2f);
     private Color speakingColor = new Color(1, 1, 1, 1f);
     private bool isMuted;
@@ -45,7 +45,7 @@ public class RosterItem : MonoBehaviour
 
     private void Awake()
     {
-        avatar = GetComponent<Image>();    
+        //avatar = GetComponent<Image>();    
     }
 
     private bool isSpeaking;
