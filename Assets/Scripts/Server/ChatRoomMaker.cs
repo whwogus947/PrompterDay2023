@@ -20,7 +20,7 @@ public class ChatRoomMaker : MonoBehaviour
         int half = roomCount / 2;
         for (int i = 0; i < roomCount; i++)
         {
-            var dt = System.DateTime.Now.ToString("HHmm");
+            var dt = System.DateTime.Now.ToString("MMddHHmm");
             int roomNumber;
             if (int.TryParse(dt, out roomNumber))
             {
