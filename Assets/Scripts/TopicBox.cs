@@ -17,6 +17,11 @@ public class TopicBox : MonoBehaviour
 
     }
 
+    public void OnClickTopicBox()
+    {
+        ContentVisualManager.Inst.ShowDetailedMessage(topicIndex);
+    }
+
     public void SetText(string _text)
     {
         message.text = _text;
@@ -39,8 +44,10 @@ public class TopicBox : MonoBehaviour
         float x = end.x - start.x;
         float y = end.y - start.y;
 
-        Vector3 half1 = start + Vector3.up * y / 2f;
-        Vector3 half2 = half1 + Vector3.right * x;
+        //Vector3 half1 = start + Vector3.up * y;
+        //Vector3 half2 = half1 + Vector3.right * x / 2f;
+        Vector3 half1 = start + Vector3.right * x / 2f;
+        Vector3 half2 = half1 + Vector3.up * y;
 
         visualizer = Instantiate(visualizer);
         await visualizer.StartDrawing(start, half1, half2, end);
