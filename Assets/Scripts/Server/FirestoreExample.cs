@@ -8,7 +8,6 @@ using Firebase.Extensions;
 using Cysharp.Threading.Tasks;
 using System;
 using OpenAI;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class FirestoreExample : MonoBehaviour
 {

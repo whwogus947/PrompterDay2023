@@ -77,6 +77,8 @@ public class ContentVisualManager : MonoBehaviour
             ideaBox.SetText(ideas[i].SummaryOfIdea);
             if (ideaBox.topicIndex == jsonResult.SelectedIdea - 1)
                 topicBox = ideaBox;
+            Debug.Log(ideaBox.topicIndex);
+            Debug.Log(jsonResult.SelectedIdea - 1);
         }
         await UniTask.WaitUntil(() => ClearedCount >= ideas.Length);
 

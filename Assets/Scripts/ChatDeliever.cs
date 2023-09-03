@@ -12,7 +12,7 @@ namespace OpenAI
         [TextArea(5, 10)]public string baseDirection;
         [TextArea(5, 10)]public string jsonDirection;
 
-        private OpenAIApi openai = new OpenAIApi("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");
+        private OpenAIApi openai = new OpenAIApi("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");
         private List<ChatMessage> messages = new List<ChatMessage>();
         private bool isWaitingRecieveMessage = false;
 
@@ -43,10 +43,10 @@ namespace OpenAI
             string users = ChatRoomMaker.roomUsers.Trim(' ', ',');
             string baseMsg = $"회의에는 [{users}]이 참여했어. \n" + baseDirection;
             Debug.Log(baseMsg);
-            await SendReply(baseMsg + msg);
+            string msg2 = await SendReply(baseMsg + msg);
 
             string mainMsg = $"회의에는 [{users}]이 참여했어. \n" + jsonDirection;
-            return await SendReply(mainMsg + msg);
+            return await SendReply(mainMsg + msg2);
         }
 
         private void ResultMessage(string message)
@@ -71,9 +71,9 @@ namespace OpenAI
             // Complete the instruction
             var completionResponse = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
             {
-                Model = "gpt-3.5-turbo-0613",
+                Model = "gpt-3.5-turbo",
+                //Model = "gpt-4",
                 Messages = messages,
-                Temperature = 0.815f,
             });
 
             if (completionResponse.Choices != null && completionResponse.Choices.Count > 0)
