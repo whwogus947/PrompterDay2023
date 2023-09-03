@@ -32,6 +32,7 @@ public class TopicBox : MonoBehaviour
         gameObject.SetActive(true);
         await BridgeTwoPoints(bottom.position, target.top.position);
         target.gameObject.SetActive(true);
+        ContentVisualManager.ClearedCount++;
     }
 
     public async UniTask TopToBottom(TopicBox target)

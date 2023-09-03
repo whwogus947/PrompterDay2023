@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class ContentVisualManager : MonoBehaviour
 {
     public static ContentVisualManager Inst { get; private set; }
+    public static int ClearedCount = 0;
     public Canvas storage;
     public TopicBox topicBox;
     public string visualizerTarget;
@@ -35,8 +36,8 @@ public class ContentVisualManager : MonoBehaviour
             Inst = this;
 
         //JsonConverter.GPTResult sample = JsonConverter.TestAsSample();
-        //jsonResult= sample;
-        //ResultToUI(sample);
+        //jsonResult = sample;
+        //ResultToUI(sample).Forget();
     }
 
     public void Summarize()
@@ -51,10 +52,10 @@ public class ContentVisualManager : MonoBehaviour
     {
         var rs = JsonConverter.Convert(visualizerTarget);
         jsonResult = rs;
-        ResultToUI(rs);
+        ResultToUI(rs).Forget();
     }
 
-    public void ResultToUI(JsonConverter.GPTResult result)
+    public async UniTaskVoid ResultToUI(JsonConverter.GPTResult result)
     {
         var startPosition = transform.position;
         var title = GenerateTopicBox(startPosition);
@@ -65,14 +66,25 @@ public class ContentVisualManager : MonoBehaviour
         var ideas = result.MeetingAgenda;
         float leftEnd = -boxXInterval * (ideas.Length - 1) / 2f;
 
+        ClearedCount = 0;
+        TopicBox topicBox = null;
         for (var i = 0; i < ideas.Length; i++)
         {
             var pos = (leftEnd + i * boxXInterval) * Vector3.up + startPosition + boxYInterval * Vector3.right;
             var ideaBox = GenerateTopicBox(pos);
-            ideaBox.topicIndex = i;
+            ideaBox.topicIndex = ideas[i].NumberOfIdea;
             title.BottomToTop(ideaBox).Forget();
             ideaBox.SetText(ideas[i].SummaryOfIdea);
+            if (ideaBox.topicIndex == jsonResult.SelectedIdea)
+                topicBox = ideaBox;
         }
+        await UniTask.WaitUntil(() => ClearedCount >= ideas.Length);
+
+        var pos2 = startPosition + boxYInterval * Vector3.right * 2;
+        var resultBox = GenerateTopicBox(pos2);
+        resultBox.GetComponent<Button>().interactable = false;
+        topicBox.BottomToTop(resultBox).Forget();
+        resultBox.SetText(result.Conclusion);
     }
 
     public void ShowDetailedMessage(int agendaIndex)
@@ -84,6 +96,9 @@ public class ContentVisualManager : MonoBehaviour
         detailedAgendaSpeaker.text = jsonResult.MeetingAgenda[agendaIndex].Speaker;
 
         var comments = jsonResult.MeetingAgenda[agendaIndex].Comments;
+
+        if (comments == null)
+            return;
 
         for (int i = 0; i < comments.Length; i++)
         {

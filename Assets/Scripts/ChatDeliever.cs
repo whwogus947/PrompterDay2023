@@ -9,6 +9,9 @@ namespace OpenAI
     {
         public static ChatDeliever Inst { get; private set; }
 
+        [TextArea(5, 10)]public string baseDirection;
+        [TextArea(5, 10)]public string jsonDirection;
+
         private OpenAIApi openai = new OpenAIApi("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");
         private List<ChatMessage> messages = new List<ChatMessage>();
         private bool isWaitingRecieveMessage = false;
@@ -38,11 +41,11 @@ namespace OpenAI
                 return null;
 
             string users = ChatRoomMaker.roomUsers.Trim(' ', ',');
-            string baseMsg = $"회의에는 {users}이 참여했어. " + "다음 회의 내용을 요약해줘. 회의 주제를 명시하고, 제시된 내용을 아이디어별로 발언자와 묶어서 번호를 붙여 정리한 뒤, 채택된 아이디어의 번호와 결론, 추후 논의 사항을 알려주면 돼.\n\n";
+            string baseMsg = $"회의에는 [{users}]이 참여했어. \n" + baseDirection;
             Debug.Log(baseMsg);
             await SendReply(baseMsg + msg);
 
-            string mainMsg = $"회의에는 {users}이 참여했어. " + "다음의 정리된 회의 내용들을 json 데이터 코드로 바꾸어줘. Comments는 각 아이디어에 다른 사람들이 덧붙인 의견을 담은 데이터야. 제공된 정보가 없으면 null 값으로 처리해도 돼. 결론은 30자 내외로 간단하게 요약하고, 추후 논의사항은 구체적으로 입력해줘. 문장이 길어지거나 줄바꿈이 필요하면 여러 개의 attribute를 사용해도 좋아.\r\n\r\njson 구조:\r\n{\r\n    \"MeetingTopic\": 회의 주제,\r\n    \"MeetingAgenda\": [\r\n      {\r\n        \"NumberOfIdea\": \"아이디어 번호 (int)\",\r\n        \"SummaryOfIdea\": \"아이디어\",\r\n        \"Speaker\": \"발언자\",\r\n        \"ContentsOfIdea\": \"아이디어 내용”,\r\n“Comments”: [\r\n{\r\n“Speaker”: “발언자”,\r\n“ContentsOfComment”: “코멘트 내용”,\r\n“IsPositive”: “해당 아이디어에 긍정적인 의견인가”\r\n}\r\n]\r\n      }\r\n    ],\r\n    \"SelctedIdea\": \"채택된 아이디어 번호\" (여러 attribute 사용 가능)\r\n    \"Conclusion\": \"결론\",\r\n    \"TopicForFurtherDiscussion\": \"추후 논의 사항\"\r\n}";
+            string mainMsg = $"회의에는 [{users}]이 참여했어. \n" + jsonDirection;
             return await SendReply(mainMsg + msg);
         }
 
