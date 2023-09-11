@@ -29,12 +29,9 @@ public class ServerStorageManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void LoadImage()
     {
         rawImage = gameObject.GetComponent<RawImage>();
-        // StartCoroutine(LoadImage("https://firebasestorage.googleapis.com/v0/b/vikings-login.appspot.com/o/VikingsLogo.jpeg?alt=media&token=44b39032-34fe-489e-bd69-536f0ed7c251"));
-        //Easy hardcoded solution But bad approach
 
         //initialize storage reference
         storage = FirebaseStorage.DefaultInstance;
@@ -57,20 +54,18 @@ public class ServerStorageManager : MonoBehaviour
         });
     }
 
-    public void OnButtonClick()
+    private void Start()
     {
-        ShowLoadDialogCoroutine();
+        storage = FirebaseStorage.DefaultInstance;
+        storageReference = storage.GetReferenceFromUrl("gs://prompterdayseoul2023.appspot.com/");
     }
 
-    private void ShowLoadDialogCoroutine()
+    public void UploadImage(byte[] bytes)
     {
-        //byte[] bytes = FileBrowserHelpers.ReadBytesFromFile(FileBrowser.Result[0]);
-        byte[] bytes = null;
-
         var newMetadata = new MetadataChange();
-        newMetadata.ContentType = "image/jpeg";
+        newMetadata.ContentType = "image/jpg";
 
-        StorageReference uploadRef = storageReference.Child("uploads/newFile.jpeg");
+        StorageReference uploadRef = storageReference.Child("Avatars/user" + UnityEngine.Random.Range(0, 9999) + System.DateTime.Now.ToString("ss") + ".jpg");
         Debug.Log("File upload started");
         uploadRef.PutBytesAsync(bytes, newMetadata).ContinueWithOnMainThread((task) =>
         {
