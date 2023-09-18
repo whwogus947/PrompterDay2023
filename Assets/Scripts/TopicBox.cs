@@ -11,6 +11,7 @@ public class TopicBox : MonoBehaviour
     public Transform bottom;
     public TMP_Text message;
     public GraphVisualizer visualizer;
+    public GameObject arguments;
 
     void Start()
     {

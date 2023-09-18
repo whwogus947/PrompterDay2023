@@ -25,6 +25,7 @@ public class ContentVisualManager : MonoBehaviour
     [Header("Visualize Boxes")]
     public Sprite titleImage;
     public Sprite agendaImage;
+    public Sprite resultImage;
 
     private float boxYInterval = 5; 
     private float boxXInterval = 3.5f;
@@ -35,9 +36,9 @@ public class ContentVisualManager : MonoBehaviour
         if (Inst == null)
             Inst = this;
 
-        //JsonConverter.GPTResult sample = JsonConverter.TestAsSample();
-        //jsonResult = sample;
-        //ResultToUI(sample).Forget();
+        JsonConverter.GPTResult sample = JsonConverter.TestAsSample();
+        jsonResult = sample;
+        ResultToUI(sample).Forget();
     }
 
     public void Summarize()
@@ -62,6 +63,7 @@ public class ContentVisualManager : MonoBehaviour
         title.SetText(result.MeetingTopic);
         title.gameObject.GetComponent<Image>().sprite = titleImage;
         title.gameObject.GetComponent<Button>().interactable = false;
+        title.arguments.SetActive(false);
 
         var ideas = result.MeetingAgenda;
         float leftEnd = -boxXInterval * (ideas.Length - 1) / 2f;
@@ -84,9 +86,12 @@ public class ContentVisualManager : MonoBehaviour
 
         var pos2 = startPosition + boxYInterval * Vector3.right * 2;
         var resultBox = GenerateTopicBox(pos2);
+        resultBox.GetComponent<Image>().sprite = resultImage;
         resultBox.GetComponent<Button>().interactable = false;
         topicBox.BottomToTop(resultBox).Forget();
         resultBox.SetText(result.Conclusion);
+        resultBox.GetComponentInChildren<TMP_Text>().color = Color.white;
+        resultBox.arguments.SetActive(false);
     }
 
     public void ShowDetailedMessage(int agendaIndex)

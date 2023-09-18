@@ -16,7 +16,7 @@ public class JsonConverter : MonoBehaviour
     public static GPTResult TestAsSample()
     {
         //string jsonFilePath = "city"; // Without the file extension
-        string jsonFilePath = "bakery"; // Without the file extension
+        string jsonFilePath = "json result"; // Without the file extension
         TextAsset jsonTextAsset = Resources.Load<TextAsset>(jsonFilePath);
         string jsonText = jsonTextAsset.text;
         return Convert(jsonText);
